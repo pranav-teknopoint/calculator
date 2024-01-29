@@ -140,16 +140,17 @@ function joindigits(arr) {
   for (let i = 0; i < arr.length; i++) {
     arr.forEach(function (element, ind) {
       if (regex.test(element)) {
-        if (regex.test(arr[ind + 1])) {
+        if (regex.test(arr[ind + 1]) || arr[ind + 1] == ".") {
           arr[ind] = arr[ind] + arr[ind + 1];
           arr.splice(ind + 1, 1);
         }
       }
     });
   }
+
   arr.forEach(function (element, ind) {
     if (!regex.test(element)) {
-      if (arr[ind + 1] == "+" || arr[ind + 1] == "-") {
+      if (arr[ind + 1] == "+" || arr[ind + 1] == "-" || arr[ind + 1] == ".") {
         arr[ind + 1] = arr[ind + 1] + arr[ind + 2];
         arr.splice(ind + 2, 1);
       }
@@ -171,7 +172,11 @@ function calculator(str) {
       solve.odmas();
     }
   }
-  return +solve;
+  if (isNaN(+solve)) {
+    return "Error";
+  } else {
+    return +solve;
+  }
 }
 
 document.getElementById("one").addEventListener("click", function () {
@@ -217,8 +222,11 @@ document.getElementById("divide").addEventListener("click", function () {
   document.getElementById("inputtext").value += "/";
 });
 document.getElementById("operand").addEventListener("click", function () {
-    document.getElementById("inputtext").value += "^";
-  });
+  document.getElementById("inputtext").value += "^";
+});
+document.getElementById("point").addEventListener("click", function () {
+  document.getElementById("inputtext").value += ".";
+});
 document.getElementById("backspace").addEventListener("click", function () {
   document.getElementById("inputtext").value = document
     .getElementById("inputtext")
@@ -226,6 +234,11 @@ document.getElementById("backspace").addEventListener("click", function () {
 });
 document.getElementById("clear").addEventListener("click", function () {
   document.getElementById("inputtext").value = "";
+});
+document.body.addEventListener("keydown", function (e) {
+  if (e.key == "Delete") {
+    document.getElementById("inputtext").value = "";
+  }
 });
 
 document.getElementById("inputtext").addEventListener("keydown", function (e) {
@@ -238,7 +251,8 @@ document.getElementById("inputtext").addEventListener("keydown", function (e) {
     e.key !== "/" &&
     e.key !== "*" &&
     e.key !== "+" &&
-    e.key !== "-"
+    e.key !== "-" &&
+    e.key !== "."
   ) {
     e.preventDefault();
   }
@@ -272,7 +286,7 @@ document.body.addEventListener("keydown", function (e) {
   }
 });
 document.getElementById("darkmode").addEventListener("click", function () {
-    document.getElementById("inputtext").classList.toggle("light");
-    document.querySelector(".container").classList.toggle("light");
-    document.body.classList.toggle("light");
+  document.getElementById("inputtext").classList.toggle("light");
+  document.querySelector(".container").classList.toggle("light");
+  document.body.classList.toggle("light");
 });
