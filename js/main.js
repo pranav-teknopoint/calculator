@@ -6,16 +6,7 @@ Array.prototype.operand = function () {
       solved[i] = (+this[i - 1]) ** +this[i + 1];
       solved.splice(i - 1, 1);
       solved.splice(i, 1);
-    }
-  }
-
-  if (solved.includes("^")) {
-    for (let i = 0; i < solved.length; i++) {
-      if (this[i] === "^") {
-        solved[i] = (+this[i - 1]) ** +this[i + 1];
-        solved.splice(i - 1, 1);
-        solved.splice(i, 1);
-      }
+      i--;
     }
   }
   return solved;
@@ -28,16 +19,7 @@ Array.prototype.divide = function () {
       solved[i] = +this[i - 1] / +this[i + 1];
       solved.splice(i - 1, 1);
       solved.splice(i, 1);
-    }
-  }
-
-  if (solved.includes("/")) {
-    for (let i = 0; i < solved.length; i++) {
-      if (this[i] === "*") {
-        solved[i] = +solved[i - 1] / +solved[i + 1];
-        solved.splice(i - 1, 1);
-        solved.splice(i, 1);
-      }
+      i--;
     }
   }
   return solved;
@@ -50,15 +32,7 @@ Array.prototype.multiply = function () {
       solved[i] = +this[i - 1] * +this[i + 1];
       solved.splice(i - 1, 1);
       solved.splice(i, 1);
-    }
-  }
-  if (solved.includes("*")) {
-    for (let i = 0; i < solved.length; i++) {
-      if (this[i] === "*") {
-        solved[i] = +solved[i - 1] * +solved[i + 1];
-        solved.splice(i - 1, 1);
-        solved.splice(i, 1);
-      }
+      i--;
     }
   }
   return solved;
@@ -71,16 +45,7 @@ Array.prototype.addition = function () {
       solved[i] = +this[i - 1] + +this[i + 1];
       solved.splice(i - 1, 1);
       solved.splice(i, 1);
-    }
-  }
-
-  if (solved.includes("+")) {
-    for (let i = 0; i < solved.length; i++) {
-      if (this[i] === "*") {
-        solved[i] = +solved[i - 1] + +solved[i + 1];
-        solved.splice(i - 1, 1);
-        solved.splice(i, 1);
-      }
+      i--;
     }
   }
   return solved;
@@ -93,16 +58,7 @@ Array.prototype.subtract = function () {
       solved[i] = +this[i - 1] - +this[i + 1];
       solved.splice(i - 1, 1);
       solved.splice(i, 1);
-    }
-  }
-
-  if (solved.includes("-")) {
-    for (let i = 0; i < solved.length; i++) {
-      if (this[i] === "*") {
-        solved[i] = +solved[i - 1] - +solved[i + 1];
-        solved.splice(i - 1, 1);
-        solved.splice(i, 1);
-      }
+      i--;
     }
   }
   return solved;
@@ -265,16 +221,64 @@ document.getElementById("inputtext").addEventListener("keydown", function (e) {
 });
 
 document.getElementById("calculate").addEventListener("click", function () {
+  input = document.getElementById("inputtext").value;
   document.getElementById("inputtext").value = calculator(
     document.getElementById("inputtext").value
   );
+  solved = calculator(document.getElementById("inputtext").value);
+  document.getElementById("history_head").innerHTML = `<h2>History</h2>`;
+  document.getElementById("history").innerHTML += `
+        <p class="history_input">${input}</p>
+        <p class="history_solved">${solved}</p>
+        `;
+  document.getElementById("clearhistory").innerHTML = `
+        <div id="clear_history">
+        <p>Clear</p>
+        </div>`;
+  document
+    .getElementById("clear_history")
+    .addEventListener("click", function () {
+      document.getElementById("history").innerHTML = `
+      <div id="history_head"></div>
+          <div id="clearhistory"></div>
+      </div> `;
+    });
 });
 
 document.body.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
+    input = document.getElementById("inputtext").value;
     document.getElementById("inputtext").value = calculator(
       document.getElementById("inputtext").value
     );
+    solved = calculator(document.getElementById("inputtext").value);
+    document.getElementById("history_head").innerHTML = `<h2>History</h2>`;
+    document.getElementById("history").innerHTML += `
+        <p class="history_input">${input}</p>
+        <p class="history_solved">${solved}</p>
+        `;
+    document.getElementById("clearhistory").innerHTML = `
+        <div id="clear_history">
+        <p>Clear</p>
+        </div>`;
+    document
+      .getElementById("clear_history")
+      .addEventListener("click", function () {
+        document.getElementById("history").innerHTML = `
+      <div id="history_head"></div>
+          <div id="clearhistory"></div>
+      </div> `;
+      });
+  }
+});
+
+document.getElementById("showhistory").addEventListener("click", function () {
+  if (document.getElementById("history").classList.contains("show")) {
+    document.getElementById("history").classList.remove("show");
+    document.getElementById("showhistory").innerHTML = `<p>Show History</p>`;
+  } else{
+    document.getElementById("history").classList.add("show");
+    document.getElementById("showhistory").innerHTML = `<p>Hide History</p>`;
   }
 });
 
