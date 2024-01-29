@@ -105,7 +105,7 @@ function joindigits(arr) {
           arr[ind + 1] = arr[ind + 1] + arr[ind + 2];
           arr.splice(ind + 2, 1);
         }
-        if (arr[ind] == ".") {
+        if (element == "." || element == "-" || element == "+") {
           arr[ind] = arr[ind] + arr[ind + 1];
           arr.splice(ind + 1, 1);
         }
