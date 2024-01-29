@@ -64,8 +64,29 @@ Array.prototype.subtract = function () {
   return solved;
 };
 
+Array.prototype.percentage = function () {
+  let solved = this;
+  for (let i = 0; i < this.length; i++) {
+    if (this[i] === "%") {
+      if (isNaN(+this[i + 1])) {
+        this[i + 1] = 1;
+      }
+      solved[i] = (+this[i - 1] / 100) * +this[i + 1];
+      solved.splice(i - 1, 1);
+      solved.splice(i, 1);
+      i--;
+    }
+  }
+  return solved;
+};
+
 Array.prototype.odmas = function () {
-  solved = this.operand().divide().multiply().addition().subtract();
+  solved = this.percentage()
+    .operand()
+    .divide()
+    .multiply()
+    .addition()
+    .subtract();
   return solved;
 };
 
@@ -83,7 +104,7 @@ function bracketsolve(str) {
 
   function replace(str, arr1, arr2) {
     arr1.forEach((element, ind) => {
-      str = str.replace("(" + element + ")", "(" + arr2[ind] + ")");
+      str = str.replace("(" + element + ")", "*(" + arr2[ind] + ")*");
     });
     return str.split(/[()]/).join("");
   }
@@ -101,11 +122,24 @@ function joindigits(arr) {
           arr.splice(ind + 1, 1);
         }
       } else {
+        if (element == "*") {
+          if (!regex.test(arr[ind + 1])) {
+            element = arr[ind + 1];
+            arr.splice(ind, 1);
+          } else if (!regex.test(arr[ind - 1])) {
+            element = arr[ind - 1];
+            arr.splice(ind, 1);
+          }
+        }
         if (arr[ind + 1] == "+" || arr[ind + 1] == "-" || arr[ind + 1] == ".") {
           arr[ind + 1] = arr[ind + 1] + arr[ind + 2];
           arr.splice(ind + 2, 1);
         }
-        if (element == "." || element == "-" || element == "+") {
+        if (element == ".") {
+          arr[ind] = arr[ind] + arr[ind + 1];
+          arr.splice(ind + 1, 1);
+        }
+        if (arr[0] == "+" || arr[0] == "-") {
           arr[ind] = arr[ind] + arr[ind + 1];
           arr.splice(ind + 1, 1);
         }
@@ -187,6 +221,16 @@ document.getElementById("operand").addEventListener("click", function () {
 document.getElementById("point").addEventListener("click", function () {
   document.getElementById("inputtext").value += ".";
 });
+document.getElementById("percentage").addEventListener("click", function () {
+  document.getElementById("inputtext").value += "%";
+});
+document.getElementById("brackets").addEventListener("click", function () {
+  if (document.getElementById("inputtext").value.split("").includes("(")) {
+    document.getElementById("inputtext").value += ")";
+  } else {
+    document.getElementById("inputtext").value += "(";
+  }
+});
 document.getElementById("backspace").addEventListener("click", function () {
   document.getElementById("inputtext").value = document
     .getElementById("inputtext")
@@ -214,7 +258,8 @@ document.getElementById("inputtext").addEventListener("keydown", function (e) {
     e.key !== "*" &&
     e.key !== "+" &&
     e.key !== "-" &&
-    e.key !== "."
+    e.key !== "." &&
+    e.key !== "%"
   ) {
     e.preventDefault();
   }
@@ -225,7 +270,7 @@ document.getElementById("calculate").addEventListener("click", function () {
   document.getElementById("inputtext").value = calculator(
     document.getElementById("inputtext").value
   );
-  solved = calculator(document.getElementById("inputtext").value);
+  solved = document.getElementById("inputtext").value;
   document.getElementById("history_head").innerHTML = `<h2>History</h2>`;
   document.getElementById("history").innerHTML += `
         <p class="history_input">${input}</p>
@@ -251,7 +296,7 @@ document.body.addEventListener("keydown", function (e) {
     document.getElementById("inputtext").value = calculator(
       document.getElementById("inputtext").value
     );
-    solved = calculator(document.getElementById("inputtext").value);
+    solved = document.getElementById("inputtext").value;
     document.getElementById("history_head").innerHTML = `<h2>History</h2>`;
     document.getElementById("history").innerHTML += `
         <p class="history_input">${input}</p>
@@ -276,7 +321,7 @@ document.getElementById("showhistory").addEventListener("click", function () {
   if (document.getElementById("history").classList.contains("show")) {
     document.getElementById("history").classList.remove("show");
     document.getElementById("showhistory").innerHTML = `<p>Show History</p>`;
-  } else{
+  } else {
     document.getElementById("history").classList.add("show");
     document.getElementById("showhistory").innerHTML = `<p>Hide History</p>`;
   }

@@ -136,17 +136,17 @@ body {
   text-align: center;
 }
 
-#plus {
+/* #plus {
   grid-row: span 2;
-}
+} */
 
 /* #subtract{ 
     grid-row: span 2;
 } */
 
-#zero {
+/* #zero {
   grid-column: span 2;
-}
+} */
 
 .buttons > div {
   font-size: 1.2rem;
