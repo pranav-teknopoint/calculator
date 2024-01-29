@@ -144,18 +144,18 @@ function joindigits(arr) {
           arr[ind] = arr[ind] + arr[ind + 1];
           arr.splice(ind + 1, 1);
         }
+      } else {
+        if (arr[ind + 1] == "+" || arr[ind + 1] == "-" || arr[ind + 1] == ".") {
+          arr[ind + 1] = arr[ind + 1] + arr[ind + 2];
+          arr.splice(ind + 2, 1);
+        }
+        if (arr[ind] == ".") {
+          arr[ind] = arr[ind] + arr[ind + 1];
+          arr.splice(ind + 1, 1);
+        }
       }
     });
   }
-
-  arr.forEach(function (element, ind) {
-    if (!regex.test(element)) {
-      if (arr[ind + 1] == "+" || arr[ind + 1] == "-" || arr[ind + 1] == ".") {
-        arr[ind + 1] = arr[ind + 1] + arr[ind + 2];
-        arr.splice(ind + 2, 1);
-      }
-    }
-  });
   return arr;
 }
 
@@ -178,6 +178,10 @@ function calculator(str) {
     return +solve;
   }
 }
+
+window.onload = function () {
+  document.getElementById("inputtext").focus();
+};
 
 document.getElementById("one").addEventListener("click", function () {
   document.getElementById("inputtext").value += "1";
@@ -245,6 +249,8 @@ document.getElementById("inputtext").addEventListener("keydown", function (e) {
   if (
     isNaN(e.key) &&
     e.key !== "Backspace" &&
+    e.key !== "ArrowLeft" &&
+    e.key !== "ArrowRight" &&
     e.key !== "(" &&
     e.key !== ")" &&
     e.key !== "^" &&
