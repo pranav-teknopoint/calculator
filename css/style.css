@@ -52,6 +52,12 @@ body {
   display: block;
 }
 
+#history_data {
+  height: 300px;
+  overflow-y: scroll;
+  overflow-x: visible;
+}
+
 #clear_history {
   margin-top: 20px;
   padding: 10px;
@@ -136,18 +142,6 @@ body {
   text-align: center;
 }
 
-/* #plus {
-  grid-row: span 2;
-} */
-
-/* #subtract{ 
-    grid-row: span 2;
-} */
-
-/* #zero {
-  grid-column: span 2;
-} */
-
 .buttons > div {
   font-size: 1.2rem;
   background-color: blueviolet;
@@ -174,16 +168,35 @@ body {
   color: black !important;
 }
 
+/* *****scrollbar******* */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: black;
+}
+::-webkit-scrollbar-thumb {
+  background: blueviolet;
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 767px) {
+  body {
+    overflow: hidden;
+  }
+  .container {
+    margin-top: 40px;
+    height: auto;
+  }
+
   .wrapper {
     display: flex;
     flex-direction: column;
-    /* height: 100vh; */
-    overflow: scroll;
   }
 
   .history {
     margin-left: 0px;
-    margin-top: 80px;
+    margin-top: 30px;
+    overflow-y: scroll;
   }
 }

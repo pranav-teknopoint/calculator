@@ -272,7 +272,7 @@ document.getElementById("calculate").addEventListener("click", function () {
   );
   solved = document.getElementById("inputtext").value;
   document.getElementById("history_head").innerHTML = `<h2>History</h2>`;
-  document.getElementById("history").innerHTML += `
+  document.getElementById("history_data").innerHTML += `
         <p class="history_input">${input}</p>
         <p class="history_solved">${solved}</p>
         `;
@@ -297,8 +297,7 @@ document.body.addEventListener("keydown", function (e) {
       document.getElementById("inputtext").value
     );
     solved = document.getElementById("inputtext").value;
-    document.getElementById("history_head").innerHTML = `<h2>History</h2>`;
-    document.getElementById("history").innerHTML += `
+    document.getElementById("history_data").innerHTML += `
         <p class="history_input">${input}</p>
         <p class="history_solved">${solved}</p>
         `;
@@ -309,10 +308,7 @@ document.body.addEventListener("keydown", function (e) {
     document
       .getElementById("clear_history")
       .addEventListener("click", function () {
-        document.getElementById("history").innerHTML = `
-      <div id="history_head"></div>
-          <div id="clearhistory"></div>
-      </div> `;
+        document.getElementById("history_data").innerHTML = ``;
       });
   }
 });
