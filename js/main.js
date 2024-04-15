@@ -80,8 +80,21 @@ Array.prototype.percentage = function () {
   return solved;
 };
 
+Array.prototype.sqrt = function () {
+  let solved = this;
+  for (let i = 0; i < this.length; i++) {
+    if (this[i] === "√") {
+      solved[i] = Math.sqrt(+this[i + 1]);
+      solved.splice(i + 1, 1);
+      i--;
+    }
+  }
+  return solved;
+};
+
 Array.prototype.odmas = function () {
   solved = this.percentage()
+    .sqrt()
     .operand()
     .divide()
     .multiply()
@@ -122,6 +135,41 @@ function joindigits(arr) {
           arr.splice(ind + 1, 1);
         }
       } else {
+        // if (element == "s" && arr[ind + 1] == "i" && arr[ind + 2] == "n") {
+        //   arr[ind] = "sin";
+        //   arr.splice(ind + 1, 2);
+        // }
+        // if (
+        //   element == "c" &&
+        //   arr[ind + 1] == "o" &&
+        //   arr[ind + 2] == "s" &&
+        //   arr[ind + 3] !== "e"
+        // ) {
+        //   arr[ind] = "cos";
+        //   arr.splice(ind + 1, 2);
+        // }
+        // if (element == "t" && arr[ind + 1] == "a" && arr[ind + 2] == "n") {
+        //   arr[ind] = "tan";
+        //   arr.splice(ind + 1, 2);
+        // }
+        // if (element == "c" && arr[ind + 1] == "o" && arr[ind + 2] == "t") {
+        //   arr[ind] = "cot";
+        //   arr.splice(ind + 1, 2);
+        // }
+        // if (element == "s" && arr[ind + 1] == "e" && arr[ind + 2] == "c") {
+        //   arr[ind] = "sec";
+        //   arr.splice(ind + 1, 2);
+        // }
+        // if (
+        //   element == "c" &&
+        //   arr[ind + 1] == "o" &&
+        //   arr[ind + 2] == "s" &&
+        //   arr[ind + 3] == "e" &&
+        //   arr[ind + 4] == "c"
+        // ) {
+        //   arr[ind] = "cosec";
+        //   arr.splice(ind + 1, 4);
+        // }
         if (element == "*") {
           if (!regex.test(arr[ind + 1])) {
             element = arr[ind + 1];
@@ -148,6 +196,107 @@ function joindigits(arr) {
   }
   return arr;
 }
+
+// function trignometry(arr) {
+//   let ans = "0";
+//   arr.forEach(function (e, i) {
+//     if (e == "sin") {
+//       if (arr[i + 1] == "0") {
+//         ans = "0";
+//       } else if (arr[i + 1] == "30") {
+//         ans = "1/2";
+//       } else if (arr[i + 1] == "45") {
+//         ans = "1/√2";
+//       } else if (arr[i + 1] == "60") {
+//         ans = "√3/2";
+//       } else if (arr[i + 1] == "90") {
+//         ans = "1";
+//       } else if (!isNaN(arr[i + 1])) {
+//         ans = Math.sin(+arr[i + 1]);
+//       }
+//     }
+//     if (e == "cos") {
+//       if (arr[i + 1] == "0") {
+//         ans = "1";
+//       } else if (arr[i + 1] == "30") {
+//         ans = "√3/2";
+//       } else if (arr[i + 1] == "45") {
+//         ans = "1/√2";
+//       } else if (arr[i + 1] == "60") {
+//         ans = "1/2";
+//       } else if (arr[i + 1] == "90") {
+//         ans = "0";
+//       } else if (!isNaN(arr[i + 1])) {
+//         ans = Math.cos(+arr[i + 1]);
+//       }
+//     }
+//     if (e == "tan") {
+//       if (arr[i + 1] == "0") {
+//         ans = "0";
+//       } else if (arr[i + 1] == "30") {
+//         ans = "1/√3";
+//       } else if (arr[i + 1] == "45") {
+//         ans = "1";
+//       } else if (arr[i + 1] == "60") {
+//         ans = "√3";
+//       } else if (arr[i + 1] == "90") {
+//         ans = "Infinity";
+//       } else if (!isNaN(arr[i + 1])) {
+//         ans = Math.tan(+arr[i + 1]);
+//       }
+//     }
+//     if (e == "cot") {
+//       if (arr[i + 1] == "0") {
+//         ans = "Infinity";
+//       } else if (arr[i + 1] == "30") {
+//         ans = "√3";
+//       } else if (arr[i + 1] == "45") {
+//         ans = "1";
+//       } else if (arr[i + 1] == "60") {
+//         ans = "1/√3";
+//       } else if (arr[i + 1] == "90") {
+//         ans = "0";
+//       } else if (!isNaN(arr[i + 1])) {
+//         ans = 1 / Math.tan(+arr[i + 1]);
+//       }
+//     }
+//     if (e == "sec") {
+//       if (arr[i + 1] == "0") {
+//         ans = "1";
+//       } else if (arr[i + 1] == "30") {
+//         ans = "2/√3";
+//       } else if (arr[i + 1] == "45") {
+//         ans = "	√2";
+//       } else if (arr[i + 1] == "60") {
+//         ans = "2";
+//       } else if (arr[i + 1] == "90") {
+//         ans = "infinity";
+//       } else if (!isNaN(arr[i + 1])) {
+//         ans = 1 / Math.cos(+arr[i + 1]);
+//       }
+//     }
+//     if (e == "cosec") {
+//       if (arr[i + 1] == "0") {
+//         ans = "Infinity";
+//       } else if (arr[i + 1] == "30") {
+//         ans = "2";
+//       } else if (arr[i + 1] == "45") {
+//         ans = "	√2";
+//       } else if (arr[i + 1] == "60") {
+//         ans = "2/√3";
+//       } else if (arr[i + 1] == "90") {
+//         ans = "1";
+//       } else if (!isNaN(arr[i + 1])) {
+//         ans = 1 / Math.sin(+arr[i + 1]);
+//       }
+//     }
+//   });
+//   if (isNaN(ans)) {
+//     return ans.split("");
+//   } else {
+//     return ans;
+//   }
+// }
 
 function calculator(str) {
   nospace = str.replace(/\s+/g, "");
@@ -246,24 +395,13 @@ document.body.addEventListener("keydown", function (e) {
 });
 
 document.getElementById("inputtext").addEventListener("keydown", function (e) {
-  if (
-    isNaN(e.key) &&
-    e.key !== "Backspace" &&
-    e.key !== "ArrowLeft" &&
-    e.key !== "ArrowRight" &&
-    e.key !== "(" &&
-    e.key !== ")" &&
-    e.key !== "^" &&
-    e.key !== "/" &&
-    e.key !== "*" &&
-    e.key !== "+" &&
-    e.key !== "-" &&
-    e.key !== "." &&
-    e.key !== "%"
-  ) {
+  const KeysRegex =
+    /^[0-9()+\-\/*^%.\.,]|Backspace|ArrowLeft|ArrowRight$/;
+  if (!KeysRegex.test(e.key)) {
     e.preventDefault();
   }
 });
+
 
 document.getElementById("calculate").addEventListener("click", function () {
   input = document.getElementById("inputtext").value;
